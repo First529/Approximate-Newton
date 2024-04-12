@@ -1,7 +1,6 @@
 import time
 
 def gd(A, b, x0, rl, lambd, iters):
-    _, d = A.shape
     x = x0
     x_arr, t = [], []
     x_arr.append(x0.copy())
