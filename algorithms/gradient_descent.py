@@ -1,13 +1,16 @@
 import time
 
-def gd(A, b, x0, rl, lambd, iters):
+def gd(A, b, x0, rl, lambd, st):
     x = x0
     x_arr, t = [], []
     x_arr.append(x0.copy())
     t.append(0)
     alpha = 0.5
     start = time.time()
-    for j in range(iters):
+    while(True):
+        if(time.time() - start >= st):
+            break
+  
         g = rl.gradient(A,b,x) + lambd * x
         x = x - alpha * g
         x_arr.append(x.copy())

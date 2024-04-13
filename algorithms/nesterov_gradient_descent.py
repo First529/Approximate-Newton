@@ -1,6 +1,6 @@
 import time 
 
-def accelerated_gd(A, b, x0, rl, lambd, iters):
+def nesterov_gd(A, b, x0, rl, lambd, st):
     x_prev = x0
     x = x0.copy()
     x_arr, t = [], []
@@ -8,8 +8,12 @@ def accelerated_gd(A, b, x0, rl, lambd, iters):
     t.append(0)
     alpha = 0.5
     start = time.time()
-    for j in range(2, iters+2):
+    j = 2
+    while(True):
 #         beta = (j-2)/(j+1)
+        if(time.time() - start >= st):
+            break
+        
         beta = 0.72
         y = x + (beta * (x - x_prev))
         g = rl.gradient(A,b,y) + lambd * y
@@ -17,7 +21,9 @@ def accelerated_gd(A, b, x0, rl, lambd, iters):
         x = y - alpha * g
         x_arr.append(x.copy())
         t.append(time.time() - start)
+        
+        j += 1
     
     end = time.time()
-    print(f'AGD computation time: {end-start}')
+    print(f'Nesterov GD computation time: {end-start}')
     return x_arr, t
