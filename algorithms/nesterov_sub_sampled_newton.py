@@ -21,26 +21,25 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, st, ss):
     x_arr, t = [], []
     x_arr.append(x0.copy())
     t.append(0)
-    beta = 0.4
+#     beta = 0.4
     start = time.time()
     j = 2
     while(True):
         if (time.time() - start >= st):
             break
         
-#         beta = (j-2)/(j+1)
-        y = x + (beta * (x - x_prev))
-        
-        prob = row_norm_squares_sampling(A,b,y,rl)
+        prob = row_norm_squares_sampling(A,b,x,rl)
         q = np.minimum(ss * prob, 1)
         i = np.random.rand(n) < q # sub-sampled indices
         Ai = A[i,:]
         bi = b[i] 
         qi = q[i]
-        Bi = rl.hessian(Ai, bi, y) # refer to Ai(w) in paper
+        Bi = rl.hessian(Ai, bi, x) # refer to Ai(w) in paper
         B_tilde = (np.sqrt(Bi)/np.sqrt(qi))[:,np.newaxis] * Ai
         H_tilde = B_tilde.T @ B_tilde + lambd * np.eye(d)
 
+        beta = (j-2)/(j+1)
+        y = x + (beta * (x - x_prev))
         g = rl.gradient(A,b,y) + lambd * y # g(w)
         x_prev = x
         
