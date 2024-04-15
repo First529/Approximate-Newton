@@ -14,7 +14,7 @@ def row_norm_squares_sampling(A, b, x, rl):
     return Bi_norm_2/B_norm_2 # probability of selection for each i,...,n
 
 def sub_sampled_newton_rnss(A, b, x0, rl, lambd, st, ss):
-    np.random.seed(42)
+#     np.random.seed(42)
     n, d = A.shape
     x = x0
     x_arr, t = [], []
@@ -36,7 +36,7 @@ def sub_sampled_newton_rnss(A, b, x0, rl, lambd, st, ss):
         
         g = rl.gradient(A,b,x) + lambd * x # g(w)
         p = np.linalg.solve(H_tilde, -g) # might use conjugate gd??
-        x +=  p
+        x += p
         x_arr.append(x.copy())
         t.append(time.time() - start)
         

@@ -14,7 +14,7 @@ def row_norm_squares_sampling(A, b, x, rl):
     return Bi_norm_2/B_norm_2 # probability of selection for each i,...,n
 
 def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, st, ss):
-    np.random.seed(42)
+#     np.random.seed(42)
     n, d = A.shape
     x_prev = x0
     x = x0.copy()
@@ -39,6 +39,7 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, st, ss):
         H_tilde = B_tilde.T @ B_tilde + lambd * np.eye(d)
 
         beta = (j-2)/(j+1)
+#         beta = 0.72
         y = x + (beta * (x - x_prev))
         g = rl.gradient(A,b,y) + lambd * y # g(w)
         x_prev = x
