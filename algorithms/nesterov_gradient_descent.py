@@ -1,12 +1,11 @@
 import time 
 
-def nesterov_gd(A, b, x0, rl, lambd, st):
+def nesterov_gd(A, b, x0, rl, lambd, st, alpha):
     x_prev = x0
     x = x0.copy()
     x_arr, t = [], []
     x_arr.append(x0.copy())
     t.append(0)
-    alpha = 0.5
     start = time.time()
     j = 2
     while(True):

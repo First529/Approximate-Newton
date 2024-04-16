@@ -1,11 +1,10 @@
 import time
 
-def gd(A, b, x0, rl, lambd, st):
+def gd(A, b, x0, rl, lambd, st, alpha):
     x = x0
     x_arr, t = [], []
     x_arr.append(x0.copy())
     t.append(0)
-    alpha = 0.5
     start = time.time()
     while(True):
         if(time.time() - start >= st):

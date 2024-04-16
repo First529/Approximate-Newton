@@ -31,7 +31,7 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, st, ss):
         prob = row_norm_squares_sampling(A,b,x,rl)
         q = np.minimum(ss * prob, 1)
         i = np.random.rand(n) < q # sub-sampled indices
-        Ai = A[i,:]
+        Ai = A[i,:]rm 
         bi = b[i] 
         qi = q[i]
         Bi = rl.hessian(Ai, bi, x) # refer to Ai(w) in paper
