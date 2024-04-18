@@ -1,3 +1,5 @@
+import numpy as np
+
 def conjugate_gd(A, b, x, tol):
     rk = A @ x - b
     pk = -rk

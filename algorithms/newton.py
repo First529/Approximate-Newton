@@ -1,7 +1,7 @@
 import numpy as np
 import time
 
-def newton(A, b, x0, rl, lambd, st):
+def newton(A, b, x0, rl, lambd, alpha, st):
     _, d = A.shape
     x_stars = x0
     x_stars_arr, t = [], []
@@ -15,7 +15,7 @@ def newton(A, b, x0, rl, lambd, st):
         H = (A.T * B) @ (A) + lambd * np.eye(d)
         g = rl.gradient(A,b,x_stars) + lambd * x_stars
         p = np.linalg.solve(H, -g)
-        x_stars += p
+        x_stars += (alpha * p)
         x_stars_arr.append(x_stars.copy())
         t.append(time.time() - start)
     

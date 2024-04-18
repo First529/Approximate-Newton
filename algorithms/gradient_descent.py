@@ -1,6 +1,6 @@
 import time
 
-def gd(A, b, x0, rl, lambd, st, alpha):
+def gd(A, b, x0, rl, lambd, alpha, st):
     x = x0
     x_arr, t = [], []
     x_arr.append(x0.copy())
