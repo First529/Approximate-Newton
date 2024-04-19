@@ -12,7 +12,6 @@ def nesterov_gd(A, b, x0, rl, lambd, alpha, beta, st):
         if(time.time() - start >= st):
             break
         if beta == -1: beta = (j-2)/(j+1)
-#         beta = 0.72
         y = x + (beta * (x - x_prev))
         g = rl.gradient(A,b,y) + lambd * y
         x_prev = x

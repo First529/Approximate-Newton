@@ -1,6 +1,8 @@
 import numpy as np
 import time
 from algorithms.util import *
+from solvers.conjugate import *
+from solvers.woodbury import *
 
 def row_norm_squares_sampling(A, b, x, rl):
     '''
@@ -17,6 +19,7 @@ def row_norm_squares_sampling(A, b, x, rl):
     
     return Bi_norm_2/B_norm_2 # probability of selection for each i,...,n
 
+
 def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, alpha, beta, st, ss):
 #     np.random.seed(42)
     n, d = A.shape
@@ -25,7 +28,6 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, alpha, beta, st, ss):
     x_arr, t = [], []
     x_arr.append(x0.copy())
     t.append(0)
-#     beta = 0.4
     start = time.time()
     j = 2
     while(True):
@@ -47,13 +49,16 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, alpha, beta, st, ss):
         H_tilde = B_tilde.T @ B_tilde + lambd * np.eye(d)
 
         if beta == -1: beta = (j-2)/(j+1)
-#         beta = 0.72
+
         y = x + (beta * (x - x_prev))
         g = rl.gradient(A,b,y) + lambd * y # g(w)
         x_prev = x
         
-        p = np.linalg.solve(H_tilde, -g) # might use conjugate gd??
-        x = y + (alpha * p)
+#         p = np.linalg.solve(H_tilde, -g) # might use conjugate gd??
+#         p = woodbury(B_tilde, lambd, g)
+        p = conjugate_gd(H_tilde, g, x, 0.1*np.linalg.norm(g))
+#         x = y + (alpha * p)
+        x = y - (alpha * p)
         x_arr.append(x.copy())
         t.append(time.time() - start)
         
