@@ -15,6 +15,6 @@ def compute_f_gaps(A, b, w, t, w_stars, rl):
     for i in range(len(t)):
         f_gaps_tmp = []
         for k in range(len(t[i])):
-            f_gaps_tmp.append((rl.loss(A, b, w[i][k]) - f_stars)/f_stars)           
+            f_gaps_tmp.append((rl.loss(A, b, w[i][k]) - f_stars))           
         f_gaps.append(f_gaps_tmp) 
     return f_gaps

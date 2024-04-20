@@ -1,6 +1,7 @@
 import numpy as np
 import time
 from algorithms.util import *
+from solvers.conjugate import *
 
 def row_norm_squares_sampling(A, b, x, rl):
     '''
@@ -42,8 +43,10 @@ def sub_sampled_newton_rnss(A, b, x0, rl, lambd, alpha, st, ss):
         H_tilde = B_tilde.T @ B_tilde + lambd * np.eye(d)
         
         g = rl.gradient(A,b,x) + lambd * x # g(w)
-        p = np.linalg.solve(H_tilde, -g) # might use conjugate gd??
-        x += (alpha * p)
+#         p = np.linalg.solve(H_tilde, -g) # might use conjugate gd??
+        p = conjugate_gd(H_tilde, g, x, 0.1*np.linalg.norm(g))
+#         x += (alpha * p)
+        x -= (alpha * p)
         x_arr.append(x.copy())
         t.append(time.time() - start)
         

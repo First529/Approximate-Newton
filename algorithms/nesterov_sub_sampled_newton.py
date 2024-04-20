@@ -47,8 +47,9 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, alpha, beta, st, ss):
         frac_B_tilde = reshape_row_dim(frac_B_tilde)
         B_tilde = frac_B_tilde * Ai
         H_tilde = B_tilde.T @ B_tilde + lambd * np.eye(d)
-
-        if beta == -1: beta = (j-2)/(j+1)
+    
+#         if beta == -1: beta = (j-2)/(j+1)
+        if beta == -1: beta = ((j-2)/(j+1))
 
         y = x + (beta * (x - x_prev))
         g = rl.gradient(A,b,y) + lambd * y # g(w)
@@ -57,7 +58,6 @@ def nesterov_sub_sampled_newton_rnss(A, b, x0, rl, lambd, alpha, beta, st, ss):
 #         p = np.linalg.solve(H_tilde, -g) # might use conjugate gd??
 #         p = woodbury(B_tilde, lambd, g)
         p = conjugate_gd(H_tilde, g, x, 0.1*np.linalg.norm(g))
-#         x = y + (alpha * p)
         x = y - (alpha * p)
         x_arr.append(x.copy())
         t.append(time.time() - start)
